@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-from typing import Optional
 
 
 class ProductCreate(BaseModel):
@@ -9,13 +8,16 @@ class ProductCreate(BaseModel):
 
 
 class ProductUpdate(BaseModel):
-    name: Optional[str] = Field(default=None, min_length=1, max_length=100)
-    price: Optional[float] = Field(default=None, gt=0)
-    in_stock: Optional[bool] = None
+    name: str | None = Field(default=None, min_length=1, max_length=100)
+    price: float | None = Field(default=None, gt=0)
+    in_stock: bool | None = None
 
 
 class ProductOut(BaseModel):
-    id: str
+    id: int
     name: str
     price: float
     in_stock: bool
+
+    class Config:
+        from_attributes = True  # позволяет отдавать ORM-объекты напрямую
